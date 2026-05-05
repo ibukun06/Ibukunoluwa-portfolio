@@ -1,310 +1,772 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IBK & Co. | Mechatronics Portfolio</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibukunoluwa Oluwafemi | IBK & Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --bg:#F3F4F6;--bg2:#EAECF0;
+  --text:#111827;--text-light:#6B7280;
+  --card:rgba(255,255,255,0.72);--card-solid:#ffffff;
+  --border:rgba(255,255,255,0.92);--border-s:rgba(0,0,0,0.07);
+  --primary:#2563EB;--navy:#1A2E4A;--red:#C0392B;
+  --shadow:0 4px 24px rgba(0,0,0,0.06);--shadow-lg:0 12px 40px rgba(0,0,0,0.1);
+  --r:20px;--r-sm:12px;
+  --fu:'Outfit',sans-serif;--fh:'Space Grotesk',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+[data-theme="dark"]{
+  --bg:#0F172A;--bg2:#1E293B;
+  --text:#F9FAFB;--text-light:#94A3B8;
+  --card:rgba(30,41,59,0.75);--card-solid:#1E293B;
+  --border:rgba(255,255,255,0.09);--border-s:rgba(255,255,255,0.06);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);--shadow-lg:0 12px 40px rgba(0,0,0,0.5);
+}
+
+/* ─── RESET ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fu);background:var(--bg);color:var(--text);transition:background .3s,color .3s;overflow-x:hidden;}
+
+/* ─── BG GLOW ─── */
+.bg-glow{position:fixed;top:-40%;left:-40%;width:180%;height:180%;
+  background:radial-gradient(ellipse at 30% 30%,rgba(37,99,235,0.08),transparent 55%),
+             radial-gradient(ellipse at 75% 70%,rgba(192,57,43,0.05),transparent 50%);
+  z-index:-1;pointer-events:none;}
+
+/* ─── NAV ─── */
+.glass-nav{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  width:min(94vw,540px);
+  background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--border);border-radius:50px;
+  padding:9px 16px;display:flex;justify-content:space-between;align-items:center;
+  z-index:1000;box-shadow:var(--shadow-lg);gap:8px;
+}
+@media(min-width:768px){.glass-nav{top:14px;bottom:auto;}}
+.logo{font-family:var(--fh);font-weight:700;font-size:1rem;white-space:nowrap;flex-shrink:0;}
+.logo .accent{color:var(--primary);}
+.nav-links{display:flex;gap:2px;flex:1;justify-content:center;}
+.nav-links a{text-decoration:none;color:var(--text-light);font-size:.8rem;padding:5px 9px;border-radius:24px;transition:.2s;white-space:nowrap;}
+.nav-links a:hover{color:var(--text);background:var(--border-s);}
+.nav-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.theme-btn{background:none;border:none;color:var(--text-light);cursor:pointer;font-size:.95rem;padding:6px;border-radius:50%;transition:.2s;}
+.theme-btn:hover{color:var(--primary);}
+.nav-cta{background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:.76rem;font-weight:600;padding:6px 13px;border-radius:20px;font-family:var(--fu);transition:.2s;white-space:nowrap;}
+.nav-cta:hover{background:var(--red);}
+
+/* ─── CONTAINER + BENTO ─── */
+.container{max-width:1120px;margin:14px auto 120px;padding:0 13px;}
+@media(min-width:768px){.container{margin-top:96px;}}
+
+.bento-grid{display:grid;grid-template-columns:1fr;gap:13px;}
+@media(min-width:600px){
+  .bento-grid{grid-template-columns:repeat(2,1fr);}
+  .hero-section,.full-width{grid-column:span 2;}
+}
+@media(min-width:900px){
+  .bento-grid{grid-template-columns:repeat(4,1fr);}
+  .hero-section{grid-column:span 3;}
+  .tall-card{grid-column:span 1;grid-row:span 2;}
+  .wide-card{grid-column:span 2;}
+  .wide-3{grid-column:span 3;}
+  .full-width{grid-column:span 4;}
+  .span-2{grid-column:span 2;}
+}
+
+/* ─── CARD ─── */
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:var(--shadow);transition:transform .22s,box-shadow .22s,border-color .22s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(37,99,235,0.22);}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.card-header h3{font-family:var(--fh);font-size:.95rem;font-weight:700;}
+.icon-box{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;flex-shrink:0;}
+
+/* ─── HERO ─── */
+.hero-layout{display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;}
+@media(min-width:520px){.hero-layout{flex-direction:row;text-align:left;}}
+.img-ring{position:relative;flex-shrink:0;cursor:pointer;}
+.img-ring img{width:106px;height:106px;border-radius:50%;border:3px solid var(--primary);object-fit:cover;display:block;}
+.status-pill{
+  position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+  background:var(--bg);padding:4px 9px;border-radius:20px;
+  font-size:.67rem;font-weight:600;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:5px;
+  border:1px solid var(--border-s);box-shadow:var(--shadow);
+}
+.pulse{width:7px;height:7px;background:#22C55E;border-radius:50%;animation:pulseAnim 1.5s ease-in-out infinite;flex-shrink:0;}
+.hero-text h1{font-family:var(--fh);font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;}
+.hero-text h2{font-size:.88rem;color:var(--text-light);font-weight:500;margin:5px 0 9px;}
+.gradient-text{background:linear-gradient(135deg,var(--primary),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-text p{font-size:.84rem;color:var(--text-light);line-height:1.65;max-width:400px;}
+.cta-group{display:flex;gap:9px;margin-top:13px;flex-wrap:wrap;justify-content:center;}
+@media(min-width:520px){.cta-group{justify-content:flex-start;}}
+.btn{padding:8px 17px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.82rem;transition:.2s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:var(--fu);}
+.btn-p{background:var(--primary);color:#fff;}.btn-p:hover{background:#1d4ed8;}
+.btn-g{border:1.5px solid var(--border-s);color:var(--text);background:transparent;}.btn-g:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* ─── STATS ─── */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.stat-box{background:var(--bg2);border-radius:var(--r-sm);padding:14px 12px;text-align:center;cursor:pointer;transition:.2s;}
+.stat-box:hover{background:var(--primary);}
+.stat-box:hover .sn,.stat-box:hover .sl{color:#fff!important;}
+.sn{font-family:var(--fh);font-size:1.65rem;font-weight:700;color:var(--primary);line-height:1;}
+.sl{font-family:var(--fm);font-size:.58rem;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-top:3px;line-height:1.4;}
+
+/* ─── SKILLS ─── */
+.skill-cloud{display:flex;flex-wrap:wrap;gap:7px;}
+.skill-tag{padding:6px 12px;border-radius:8px;border:1px solid var(--border-s);background:rgba(255,255,255,0.04);color:var(--text);cursor:pointer;transition:.2s;font-size:.8rem;display:inline-flex;align-items:center;gap:6px;font-family:var(--fu);}
+.skill-tag:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* ─── CERT ─── */
+.cert-item{display:flex;align-items:center;gap:10px;padding:9px 10px;background:rgba(255,255,255,0.04);border-radius:11px;cursor:pointer;transition:.2s;margin-top:7px;}
+.cert-item:hover{background:var(--primary);color:#fff;}
+.cert-item:hover small{color:rgba(255,255,255,.75)!important;}
+.ci{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;}
+.cert-item h4{font-size:.86rem;margin-bottom:1px;}
+.cert-item small{font-size:.72rem;color:var(--text-light);}
+
+/* ─── PROJECT CARDS ─── */
+.project-card{padding:0;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;}
+.proj-feat{display:grid;}
+@media(min-width:560px){.proj-feat{grid-template-columns:1fr 1fr;}}
+.proj-img{height:145px;background-size:cover;background-position:center;flex-shrink:0;}
+.proj-img.flex-grow{height:auto;min-height:170px;flex:1;}
+.code-prev{
+  height:145px;background:#0f172a;color:#93C5FD;
+  font-family:var(--fm);padding:18px;
+  display:flex;flex-direction:column;justify-content:center;font-size:.72rem;line-height:1.75;flex-shrink:0;
+}
+.runsa-prev{
+  min-height:170px;height:100%;background:linear-gradient(135deg,#1A2E4A 0%,#0f172a 100%);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+.runsa-prev::before{content:'611';position:absolute;font-family:var(--fh);font-size:90px;font-weight:700;color:rgba(255,255,255,.04);right:-8px;bottom:-16px;line-height:1;}
+.runsa-big{font-family:var(--fh);font-size:2rem;font-weight:700;color:#fff;line-height:1.1;text-align:center;}
+.runsa-sub{font-family:var(--fm);font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;}
+.proj-info{padding:14px 16px;display:flex;flex-direction:column;flex:1;}
+.badge{font-size:.62rem;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;display:block;}
+.proj-info h4{font-family:var(--fh);font-size:.95rem;margin:0 0 5px;line-height:1.2;}
+.proj-info p{font-size:.78rem;color:var(--text-light);line-height:1.55;flex:1;margin-bottom:8px;}
+.mini-links{font-size:.72rem;color:var(--text);display:flex;gap:10px;opacity:.6;flex-wrap:wrap;}
+.tp-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;}
+.tp{font-family:var(--fm);font-size:.59rem;padding:2px 7px;border:1px solid var(--border-s);border-radius:4px;color:var(--text-light);}
+
+/* ─── LIST ITEMS ─── */
+.list-layout{display:flex;flex-direction:column;gap:7px;}
+.list-item{display:flex;align-items:flex-start;gap:11px;padding:9px 11px;background:rgba(255,255,255,0.04);border-radius:11px;cursor:pointer;transition:.2s;}
+.list-item:hover{background:var(--primary);color:#fff;}
+.list-item:hover .li-sub{color:rgba(255,255,255,.72)!important;}
+.li-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;flex-shrink:0;margin-top:1px;}
+.list-item h4{font-size:.84rem;line-height:1.2;margin-bottom:2px;}
+.li-sub{font-size:.71rem;color:var(--text-light);}
+
+/* ─── TIMELINE ─── */
+.timeline{display:flex;flex-direction:column;gap:18px;border-left:2px solid var(--border-s);padding-left:18px;margin-left:4px;}
+.tnode{position:relative;cursor:pointer;}
+.tnode::before{content:'';position:absolute;left:-25px;top:5px;width:9px;height:9px;background:var(--primary);border-radius:50%;border:2px solid var(--bg);}
+.tyear{font-size:.65rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;font-family:var(--fm);}
+.tnode h4{font-size:.86rem;margin:2px 0;}
+.tnode p{font-size:.76rem;color:var(--text-light);}
+.tnode small{font-size:.7rem;color:var(--text-light);}
+
+/* ─── SECTION LABEL ─── */
+.section-label{font-family:var(--fh);font-weight:700;font-size:1.1rem;margin:20px 0 2px;padding-bottom:5px;border-bottom:2px solid var(--border-s);color:var(--text);}
+
+/* ─── MODALS ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.76);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.24s;padding:14px;}
+.modal-overlay.active{opacity:1;pointer-events:auto;}
+.modal-box{background:var(--card-solid);color:var(--text);padding:22px;border-radius:var(--r);width:100%;max-width:510px;transform:scale(.92) translateY(10px);transition:.24s;position:relative;max-height:90vh;overflow-y:auto;}
+.modal-overlay.active .modal-box{transform:scale(1) translateY(0);}
+.close-modal{position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.3rem;color:var(--text-light);cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:.2s;}
+.close-modal:hover{background:var(--border-s);color:var(--text);}
+.modal-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-right:36px;flex-wrap:wrap;}
+.modal-header h3{font-family:var(--fh);font-size:1.1rem;}
+.tag{font-size:.62rem;font-weight:700;text-transform:uppercase;background:var(--primary);color:#fff;padding:3px 8px;border-radius:20px;letter-spacing:.04em;white-space:nowrap;}
+.modal-tabs{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+@media(min-width:480px){.modal-tabs{grid-template-columns:1fr 1fr;}}
+.media-view{position:relative;cursor:zoom-in;border-radius:9px;overflow:hidden;}
+.media-view img{width:100%;height:140px;object-fit:cover;display:block;}
+.hint{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);color:#fff;font-size:.69rem;padding:5px 9px;display:flex;align-items:center;gap:5px;}
+.tech-view h4{font-size:.88rem;margin-bottom:7px;font-family:var(--fh);}
+.tech-view ul{padding-left:17px;color:var(--text-light);font-size:.8rem;line-height:1.7;}
+.tech-view ul li strong{color:var(--text);}
+.code-block{background:#0f172a;color:#93C5FD;padding:14px;border-radius:9px;font-family:var(--fm);font-size:.73rem;overflow-x:auto;margin:12px 0;line-height:1.75;}
+.mbt{font-size:.85rem;color:var(--text-light);line-height:1.72;margin-top:8px;}
+.mbt strong{color:var(--text);}
+.mbt ul{padding-left:16px;margin-top:7px;}
+.mbt li{margin-bottom:4px;}
+/* fullscreen img */
+.modal-image-box{position:relative;max-width:90vw;max-height:90vh;}
+.modal-image-box img{max-width:90vw;max-height:85vh;border-radius:11px;display:block;}
+/* contact */
+.center{text-align:center;}
+.profile-halo{cursor:pointer;display:inline-block;margin-bottom:11px;}
+.profile-halo img{width:92px;height:92px;border-radius:50%;border:3px solid var(--primary);}
+.link-stack{display:flex;flex-direction:column;gap:7px;margin-top:16px;}
+.link-row{padding:11px 15px;background:rgba(255,255,255,.04);border:1px solid var(--border-s);border-radius:9px;text-decoration:none;color:var(--text);font-weight:600;font-size:.84rem;transition:.2s;display:flex;align-items:center;justify-content:center;gap:9px;}
+.link-row:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .48s ease-out,transform .48s ease-out;}
+.reveal.active{opacity:1;transform:none;}
+
+/* ─── FOOTER ─── */
+footer{text-align:center;padding:18px 0 4px;color:var(--text-light);font-size:.75rem;}
+
+/* ─── ANIMATIONS ─── */
+@keyframes pulseAnim{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.82);}}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:var(--border-s);border-radius:10px;}
+
+/* ─── ICON COLOR HELPERS ─── */
+.c-blue{background:#2563EB;}.c-orange{background:#F97316;}.c-pink{background:#EC4899;}
+.c-green{background:#22C55E;}.c-teal{background:#0D9488;}.c-violet{background:#7C3AED;}
+.c-navy{background:#1A2E4A;}.c-red{background:#C0392B;}.c-gray{background:#6B7280;}
+</style>
 </head>
 <body>
 
-    <div class="background-glow"></div>
+<div class="bg-glow"></div>
 
-    <nav class="glass-nav">
-        <div class="logo">IBK <span class="accent">&</span> Co.</div>
-        <div class="nav-links">
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
+<!-- ─── NAV ─── -->
+<nav class="glass-nav">
+  <div class="logo">IBK <span class="accent">&</span> Co.</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+      <i class="fa-solid fa-moon" id="theme-icon"></i>
+    </button>
+    <button class="nav-cta" onclick="openModal('modal-contact')">
+      <i class="fa-solid fa-paper-plane"></i> Contact
+    </button>
+  </div>
+</nav>
+
+<!-- ─── BENTO ─── -->
+<div class="container">
+<main class="bento-grid">
+
+  <!-- HERO -->
+  <section class="card hero-section reveal">
+    <div class="hero-layout">
+      <div onclick="openModal('modal-contact')" style="flex-shrink:0;">
+        <div class="img-ring">
+          <img src="profile.jpg" alt="Ibukunoluwa Oluwafemi"
+            onerror="this.style.cssText='width:106px;height:106px;border-radius:50%;background:#1A2E4A;display:block;'">
+          <div class="status-pill"><span class="pulse"></span> Open to Internships</div>
         </div>
-        <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-            <div class="icon-wrapper">
-                <i class="fa-solid fa-sun" id="theme-icon"></i>
-            </div>
-        </button>
-    </nav>
-
-    <div class="container">
-        <main class="bento-grid">
-
-            <section class="card hero-section reveal">
-                <div class="hero-layout">
-                    <div class="hero-visual" onclick="openModal('modal-contact')">
-                        <div class="img-ring">
-                            <img src="profile.jpg" alt="Ibukunoluwa">
-                        </div>
-                        <div class="status-pill"><span class="pulse"></span> Open to Work</div>
-                    </div>
-                    <div class="hero-text">
-                        <h1>Ibukunoluwa <span class="gradient-text">Oluwafemi</span></h1>
-                        <h2>Mechatronics Engineer In-View</h2>
-                        <p>Combining heavy metal fabrication with Python automation. Expert in bridging the gap between hardware mechanics and intelligent software. Enthusiastic Learner.</p>
-                        
-                        <div class="cta-group">
-                            <a href="Resumé.pdf" download class="btn primary">
-                                <i class="fa-solid fa-file-arrow-down"></i> Resumé
-                            </a>
-                            <button onclick="openModal('modal-contact')" class="btn glass">
-                                <i class="fa-solid fa-address-card"></i> Contact
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="skills" class="card wide-card reveal">
-                <div class="card-header">
-                    <i class="fa-solid fa-microchip icon-box"></i>
-                    <h3>Technical Arsenal</h3>
-                </div>
-                <div class="skill-cloud">
-                    <button class="skill-tag" onclick="openModal('modal-skill-python')"><i class="fa-brands fa-python"></i> Python & NumPy</button>
-                    <button class="skill-tag" onclick="openModal('modal-skill-cad')"><i class="fa-solid fa-pen-ruler"></i> AutoCAD</button>
-                    <button class="skill-tag" onclick="openModal('modal-skill-weld')"><i class="fa-solid fa-fire-burner"></i> Arc Welding</button>
-                    <button class="skill-tag" onclick="openModal('modal-wood')"><i class="fa-solid fa-tree"></i> Woodwork</button>
-                    <button class="skill-tag" onclick="openModal('modal-ethernet')"><i class="fa-solid fa-network-wired"></i> Networking</button>
-                    <button class="skill-tag" onclick="openModal('modal-lead')"><i class="fa-solid fa-users"></i> Leadership</button>
-                </div>
-            </section>
-
-            <section class="card small-card reveal">
-                <div class="card-header">
-                    <i class="fa-solid fa-certificate icon-box"></i>
-                    <h3>Certified</h3>
-                </div>
-                <div class="cert-item clickable" onclick="openModal('modal-cert-coding')">
-                    <div class="cert-icon blue"><i class="fa-solid fa-code"></i></div>
-                    <div>
-                        <h4>Programming Hero</h4>
-                        <small>Fundamentals of Prog.</small>
-                    </div>
-                </div>
-            </section>
-
-            <div class="section-label full-width">Selected Engineering Projects</div>
-
-            <article class="card project-card reveal" onclick="openModal('modal-wind')">
-                <div class="project-img" style="background-image: url('images/wind-tunnel.jpg');"></div>
-                <div class="project-info">
-                    <span class="badge">SWEP</span>
-                    <h4>Wind Tunnel Apparatus</h4>
-                    <p>Fluid mechanics test rig construction.</p>
-                    <div class="mini-links"><i class="fa-solid fa-image"></i> Pics <i class="fa-solid fa-code"></i> Specs</div>
-                </div>
-            </article>
-
-            <article class="card project-card reveal" onclick="openModal('modal-swep')">
-                <div class="project-img" style="background-image: url('images/swep.jpg');"></div>
-                <div class="project-info">
-                    <span class="badge">Fabrication</span>
-                    <h4>Maize Sheller</h4>
-                    <p>Motorized agricultural machine.</p>
-                    <div class="mini-links"><i class="fa-solid fa-image"></i> Pics <i class="fa-solid fa-gear"></i> Mech</div>
-                </div>
-            </article>
-
-            <article class="card project-card reveal" onclick="openModal('modal-beam')">
-                <div class="code-preview">def deflection(load):</div>
-                <div class="project-info">
-                    <span class="badge">Software</span>
-                    <h4>Beam Deflection Tool</h4>
-                    <p>Structural analysis automation.</p>
-                    <div class="mini-links"><i class="fa-brands fa-python"></i> Code</div>
-                </div>
-            </article>
-
-            <div class="section-label full-width">History & Credentials</div>
-
-            <section id="experience" class="card wide-card reveal">
-                <div class="card-header">
-                    <i class="fa-solid fa-briefcase icon-box"></i>
-                    <h3>Experience Log</h3>
-                </div>
-                <div class="list-layout">
-                    <div class="list-item clickable" onclick="openModal('modal-cowry')">
-                        <div class="list-icon blue"><i class="fa-solid fa-wallet"></i></div>
-                        <div>
-                            <h4>Cowrywise Ambassador</h4>
-                            <small>Fintech Ambassadorship • 2025</small>
-                        </div>
-                    </div>
-                    <div class="list-item clickable" onclick="openModal('modal-runsa')">
-                        <div class="list-icon orange"><i class="fa-solid fa-gavel"></i></div>
-                        <div>
-                            <h4>RUNSA Chief Whip</h4>
-                            <small>Student Govt • 2025</small>
-                        </div>
-                    </div>
-                    <div class="list-item clickable" onclick="openModal('modal-spe')">
-                        <div class="list-icon pink"><i class="fa-solid fa-earth-americas"></i></div>
-                        <div>
-                            <h4>SPE Student Member</h4>
-                            <small>Petroleum Society • 2024</small>
-                        </div>
-                    </div>
-                    <div class="list-item clickable" onclick="openModal('modal-sales')">
-                        <div class="list-icon green"><i class="fa-solid fa-shop"></i></div>
-                        <div>
-                            <h4>Sales Representative</h4>
-                            <small>Family Business • 2021</small>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="card tall-card reveal">
-                <div class="card-header">
-                    <i class="fa-solid fa-graduation-cap icon-box"></i>
-                    <h3>Education</h3>
-                </div>
-                <div class="timeline">
-                    <div class="timeline-node clickable" onclick="openModal('modal-school')">
-                        <span class="year">2023-Present</span>
-                        <h4>Redeemer's University, Ede, Osun state, Nigeria</h4>
-                        <p>B.Eng. Mechanical Engineering</p>
-                    </div>
-                    <div class="timeline-node">
-                        <span class="year">2016-2022</span>
-                        <h4>Yaba College of Technology</h4>
-                        <p>Secondary School</p>
-                        <small> WAEC - Distinctions in Physics</small>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-        
-        <footer>
-            <p>&copy; 2025 IBK & Co. | Growing Portfolio</p>
-        </footer>
-    </div>
-
-    <div id="modal-fullscreen" class="modal-overlay">
-        <div class="modal-image-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <img id="full-image-src" src="" alt="Full View">
+      </div>
+      <div class="hero-text">
+        <h1>Ibukunoluwa <span class="gradient-text">Oluwafemi</span></h1>
+        <h2>Mechanical Engineering · Full-Stack Builder · Fabricator</h2>
+        <p>I weld steel frames and deploy React apps to production — not as a party trick, but as a working method. Redeemer's University (CGPA 4.37/5.00) · SAT 1360 · 90th Percentile. Seeking engineering internships in Nigeria and abroad.</p>
+        <div class="cta-group">
+          <a href="Ibukunoluwa_Oluwafemi_Resume.docx" download class="btn btn-p">
+            <i class="fa-solid fa-file-arrow-down"></i> Résumé
+          </a>
+          <button onclick="openModal('modal-contact')" class="btn btn-g">
+            <i class="fa-solid fa-address-card"></i> Contact
+          </button>
         </div>
+      </div>
     </div>
+  </section>
 
-    <div id="modal-contact" class="modal-overlay">
-        <div class="modal-box center">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div class="profile-halo" onclick="openFullImage('images/profile.jpg')">
-                <img src="profile.jpg" alt="IBK">
-            </div>
-            <h2>Ibukunoluwa Oluwafemi</h2>
-            <p>Lagos, Nigeria</p>
-            <div class="link-stack">
-                <a href="https://wa.me/2347080572415" class="link-row whatsapp"><i class="fa-brands fa-whatsapp"></i> +234 708 057 2415</a>
-                <a href="mailto:oluwafemiibk@gmail.com" class="link-row email"><i class="fa-solid fa-envelope"></i> oluwafemiibk@gmail.com</a>
-                <a href="https://linkedin.com/in/ibk-co" class="link-row linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn Profile</a>
-            </div>
+  <!-- STATS + CERTS tall card -->
+  <section class="card tall-card reveal" style="display:flex;flex-direction:column;gap:8px;">
+    <div class="card-header" style="margin-bottom:4px;">
+      <div class="icon-box" style="background:var(--primary);"><i class="fa-solid fa-chart-simple"></i></div>
+      <h3>By the Numbers</h3>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box" onclick="openModal('modal-school')">
+        <div class="sn">4.37</div>
+        <div class="sl">CGPA / 5.00<br>Mech. Eng.</div>
+      </div>
+      <div class="stat-box" onclick="openModal('modal-sat')">
+        <div class="sn">1360</div>
+        <div class="sl">SAT Score<br>90th Pctile</div>
+      </div>
+      <div class="stat-box" onclick="openModal('modal-runsa-proj')">
+        <div class="sn">611</div>
+        <div class="sl">Delegates<br>RUNSA 2026</div>
+      </div>
+      <div class="stat-box" onclick="openModal('modal-runsa-proj')">
+        <div class="sn">3</div>
+        <div class="sl">Live Apps<br>Built Solo</div>
+      </div>
+    </div>
+    <div style="margin-top:auto;padding-top:10px;border-top:1px solid var(--border-s);">
+      <div class="card-header" style="margin-bottom:8px;">
+        <div class="icon-box" style="background:var(--red);"><i class="fa-solid fa-certificate"></i></div>
+        <h3>Certified</h3>
+      </div>
+      <div class="cert-item" onclick="openModal('modal-cert')">
+        <div class="ci c-blue"><i class="fa-solid fa-code"></i></div>
+        <div>
+          <h4>Programming Hero</h4>
+          <small>Fundamentals of Programming</small>
         </div>
+      </div>
+      <div class="cert-item" style="opacity:.55;cursor:default;">
+        <div class="ci c-gray"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div><h4>More Coming Soon</h4><small>Certificates in progress</small></div>
+      </div>
     </div>
+  </section>
 
-    <div id="modal-wind" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div class="modal-header">
-                <h3>Wind Tunnel Apparatus</h3>
-                <span class="tag">SWEP</span>
-            </div>
-            <div class="modal-tabs">
-                <div class="media-view" onclick="openFullImage('images/wind-tunnel.jpg')">
-                    <img src="images/wind-tunnel.jpg" alt="Wind Tunnel" onerror="this.src='https://placehold.co/600x400/2563EB/FFF?text=Wind+Tunnel+Photo'">
-                    <div class="hint"><i class="fa-solid fa-expand"></i> View Photo</div>
-                </div>
-                <div class="tech-view">
-                    <h4>Technical Specs</h4>
-                    <ul>
-                        <li><strong>Component:</strong> Contraction Cone & Test Section.</li>
-                        <li><strong>Material:</strong> Transparent Acrylic & Mild Steel.</li>
-                        <li><strong>Physics:</strong> Bernoulli's Principle demonstration.</li>
-                    </ul>
-                </div>
-            </div>
+  <!-- SKILLS -->
+  <section id="skills" class="card wide-card reveal">
+    <div class="card-header">
+      <div class="icon-box" style="background:#7C3AED;"><i class="fa-solid fa-microchip"></i></div>
+      <h3>Technical Arsenal</h3>
+    </div>
+    <div class="skill-cloud">
+      <button class="skill-tag" onclick="openModal('modal-python')"><i class="fa-brands fa-python"></i> Python & NumPy</button>
+      <button class="skill-tag" onclick="openModal('modal-react')"><i class="fa-brands fa-react"></i> React & Firebase</button>
+      <button class="skill-tag" onclick="openModal('modal-cad')"><i class="fa-solid fa-pen-ruler"></i> AutoCAD 2D/3D</button>
+      <button class="skill-tag" onclick="openModal('modal-weld')"><i class="fa-solid fa-fire-burner"></i> SMAW Welding</button>
+      <button class="skill-tag" onclick="openModal('modal-machine')"><i class="fa-solid fa-gear"></i> Lathe & Milling</button>
+      <button class="skill-tag" onclick="openModal('modal-wood')"><i class="fa-solid fa-tree"></i> Precision Woodwork</button>
+      <button class="skill-tag" onclick="openModal('modal-ethernet')"><i class="fa-solid fa-network-wired"></i> Networking</button>
+      <button class="skill-tag" onclick="openModal('modal-lead')"><i class="fa-solid fa-users"></i> Leadership</button>
+    </div>
+  </section>
+
+  <!-- PROJECT SECTION LABEL -->
+  <div class="section-label full-width" id="projects">Selected Projects</div>
+
+  <!-- RUNSA FEATURED -->
+  <article class="card project-card proj-feat span-2 reveal" onclick="openModal('modal-runsa-proj')">
+    <div class="runsa-prev">
+      <div class="runsa-big">RUNSA<br>Summit 2026</div>
+      <div class="runsa-sub">Full-Stack · Production · Solo</div>
+    </div>
+    <div class="proj-info" style="padding:20px 22px;">
+      <span class="badge" style="color:var(--red);">⭐ Featured · Web Platform</span>
+      <h4>RUNSA Legislative Summit 2026</h4>
+      <p>Three independent production apps built solo in under 10 weeks — delegate registration & admin portal, live real-time order-of-events board, automated ID card generator. 611 registered delegates. Zero data loss.</p>
+      <div class="tp-row">
+        <span class="tp">React.js</span><span class="tp">Firebase</span><span class="tp">Firestore</span>
+        <span class="tp">Realtime DB</span><span class="tp">Vercel</span><span class="tp">JavaScript</span>
+      </div>
+      <div class="mini-links" style="margin-top:10px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live · <i class="fa-solid fa-code"></i> Stack Details</div>
+    </div>
+  </article>
+
+  <!-- Wind Tunnel -->
+  <article class="card project-card reveal" onclick="openModal('modal-wind')">
+    <div class="proj-img" style="background-image:url('images/wind-tunnel.jpg');background-color:#c7d2fe;"></div>
+    <div class="proj-info">
+      <span class="badge">SWEP · Fluid Mechanics</span>
+      <h4>Wind Tunnel Apparatus</h4>
+      <p>Low-speed test rig with calculated contraction cone. Bernoulli demonstration using transparent acrylic test section.</p>
+      <div class="mini-links"><i class="fa-solid fa-image"></i> Pics <i class="fa-solid fa-code"></i> Specs</div>
+    </div>
+  </article>
+
+  <!-- Maize Sheller -->
+  <article class="card project-card reveal" onclick="openModal('modal-swep')">
+    <div class="proj-img" style="background-image:url('images/swep.jpg');background-color:#fde68a;"></div>
+    <div class="proj-info">
+      <span class="badge">SWEP · Fabrication</span>
+      <h4>Maize Sheller Machine</h4>
+      <p>Led chassis fabrication. Welded mild steel frame, aligned 2HP motor drive system. Throughput: 50 kg/hr.</p>
+      <div class="mini-links"><i class="fa-solid fa-image"></i> Pics <i class="fa-solid fa-gear"></i> Mech</div>
+    </div>
+  </article>
+
+  <!-- Beam Deflection -->
+  <article class="card project-card reveal" onclick="openModal('modal-beam')">
+    <div class="code-prev">
+      <span style="color:#475569;opacity:.8;">// Double Integration Method</span><br>
+      def deflect(load, L, E, I):<br>
+      &nbsp;&nbsp;M = (load * L) / 2<br>
+      &nbsp;&nbsp;<span style="color:#4ade80;">return</span> M / (E * I)
+    </div>
+    <div class="proj-info">
+      <span class="badge">Python · Engineering Tool</span>
+      <h4>Beam Deflection Automator</h4>
+      <p>Automates Double Integration Method. Cuts lab calculation time by 90%+. Used by coursemates in Strength of Materials.</p>
+      <div class="mini-links"><i class="fa-brands fa-python"></i> Code <i class="fa-solid fa-chart-line"></i> Results</div>
+    </div>
+  </article>
+
+  <!-- EXPERIENCE LABEL -->
+  <div class="section-label full-width" id="experience">History & Credentials</div>
+
+  <!-- EXPERIENCE LIST -->
+  <section class="card wide-3 reveal">
+    <div class="card-header">
+      <div class="icon-box" style="background:#F97316;"><i class="fa-solid fa-briefcase"></i></div>
+      <h3>Experience Log</h3>
+    </div>
+    <div class="list-layout">
+      <div class="list-item" onclick="openModal('modal-cowry')">
+        <div class="li-icon c-blue"><i class="fa-solid fa-wallet"></i></div>
+        <div>
+          <h4>Cowrywise Campus Ambassador</h4>
+          <div class="li-sub">Fintech · Redeemer's University · Dec 2024 – Present</div>
         </div>
-    </div>
-
-    <div id="modal-swep" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div class="modal-header"><h3>Maize Sheller Machine</h3><span class="tag">Fabrication</span></div>
-            <div class="modal-tabs">
-                <div class="media-view" onclick="openFullImage('images/swep.jpg')">
-                    <img src="images/swep.jpg" alt="Maize Sheller" onerror="this.src='https://placehold.co/600x400/2563EB/FFF?text=Maize+Sheller+Photo'">
-                    <div class="hint"><i class="fa-solid fa-expand"></i> View Photo</div>
-                </div>
-                <div class="tech-view">
-                    <h4>Fabrication Details</h4>
-                    <ul>
-                        <li><strong>Chassis:</strong> Welded angle iron frame.</li>
-                        <li><strong>Power:</strong> 2HP Electric Motor.</li>
-                        <li><strong>Drive:</strong> Pulley & Belt alignment system.</li>
-                    </ul>
-                </div>
-            </div>
+      </div>
+      <div class="list-item" onclick="openModal('modal-runsa-exp')">
+        <div class="li-icon c-navy"><i class="fa-solid fa-gavel"></i></div>
+        <div>
+          <h4>Chief Whip & In-House Committees Supervisor — RUNSA Legislative Council</h4>
+          <div class="li-sub">Student Government · Redeemer's University · Oct 2024 – Present</div>
         </div>
+      </div>
+      <div class="list-item" onclick="openModal('modal-fossil')">
+        <div class="li-icon c-orange"><i class="fa-solid fa-oil-well"></i></div>
+        <div>
+          <h4>Energy & Fossil Fuel Committee — SPE RU Chapter</h4>
+          <div class="li-sub">Society of Petroleum Engineers · 2024 – Present</div>
+        </div>
+      </div>
+      <div class="list-item" onclick="openModal('modal-climate')">
+        <div class="li-icon c-teal"><i class="fa-solid fa-leaf"></i></div>
+        <div>
+          <h4>Environmental & Climate Impact Committee — SPE RU Chapter</h4>
+          <div class="li-sub">Society of Petroleum Engineers · 2024 – Present</div>
+        </div>
+      </div>
+      <div class="list-item" onclick="openModal('modal-sales')">
+        <div class="li-icon c-green"><i class="fa-solid fa-shop"></i></div>
+        <div>
+          <h4>Sales Representative — Family Business</h4>
+          <div class="li-sub">Lagos, Nigeria · 2022 – 2024</div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div id="modal-beam" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div class="modal-header"><h3>Beam Deflection Automator</h3><span class="tag">Python</span></div>
-            <div class="code-block">
-<pre>
-import numpy as np
+  <!-- EDUCATION TIMELINE -->
+  <section class="card reveal">
+    <div class="card-header">
+      <div class="icon-box" style="background:var(--red);"><i class="fa-solid fa-graduation-cap"></i></div>
+      <h3>Education</h3>
+    </div>
+    <div class="timeline">
+      <div class="tnode" onclick="openModal('modal-school')">
+        <span class="tyear">2023 – Present</span>
+        <h4>Redeemer's University, Ede</h4>
+        <p>B.Eng. Mechanical Engineering</p>
+        <small>CGPA: 4.37 / 5.00</small>
+      </div>
+      <div class="tnode" onclick="openModal('modal-sat')">
+        <span class="tyear">Mar 2023</span>
+        <h4>SAT · College Board</h4>
+        <p>1360 / 1600 · 90th Percentile</p>
+        <small>Math 710 · R&amp;W 650</small>
+      </div>
+      <div class="tnode">
+        <span class="tyear">2016 – 2022</span>
+        <h4>Yabtech Secondary School, Lagos</h4>
+        <p>WAEC — Distinctions: Further Maths, Geography, Technical Drawing</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer><p>&copy; 2026 Ibukunoluwa J. Oluwafemi &middot; IBK &amp; Co. &middot; Built from scratch.</p></footer>
+</div>
+
+<!-- ════════════════ MODALS ════════════════ -->
+
+<!-- Fullscreen image -->
+<div id="modal-fullscreen" class="modal-overlay" onclick="closeModal()">
+  <div class="modal-image-box" onclick="event.stopPropagation()">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <img id="full-img" src="" alt="Full View">
+  </div>
+</div>
+
+<!-- Contact -->
+<div id="modal-contact" class="modal-overlay">
+  <div class="modal-box center">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="profile-halo" onclick="openFullImage('profile.jpg')">
+      <img src="profile.jpg" alt="IBK" onerror="this.style.display='none'">
+    </div>
+    <h2 style="font-family:var(--fh);">Ibukunoluwa Oluwafemi</h2>
+    <p style="color:var(--text-light);font-size:.82rem;margin-top:4px;">Lagos, Nigeria &middot; Open to Engineering Internships</p>
+    <div class="link-stack">
+      <a href="https://wa.me/2347080572415" target="_blank" class="link-row"><i class="fa-brands fa-whatsapp" style="color:#22C55E;"></i> +234 708 057 2415</a>
+      <a href="mailto:oluwafemiibk@gmail.com" class="link-row"><i class="fa-solid fa-envelope" style="color:var(--primary);"></i> oluwafemiibk@gmail.com</a>
+      <a href="https://linkedin.com/in/ibk-co" target="_blank" class="link-row"><i class="fa-brands fa-linkedin" style="color:#0A66C2;"></i> LinkedIn — ibk-co</a>
+      <a href="Ibukunoluwa_Oluwafemi_Resume.docx" download class="link-row"><i class="fa-solid fa-file-arrow-down" style="color:var(--red);"></i> Download Résumé</a>
+    </div>
+  </div>
+</div>
+
+<!-- SAT -->
+<div id="modal-sat" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="modal-header"><h3>SAT Score Report</h3><span class="tag" style="background:#16A34A;">90th Percentile</span></div>
+    <div class="mbt">
+      <strong>Total: 1360 / 1600</strong> &middot; Tested March 2023 (Record: 4088725788)<br><br>
+      <ul>
+        <li><strong>Math:</strong> 710 / 800 &middot; <em>92nd Percentile</em></li>
+        <li><strong>Reading &amp; Writing:</strong> 650 / 800 &middot; <em>85th Percentile</em></li>
+      </ul><br>
+      <strong>Top performance bands:</strong>
+      <ul>
+        <li>Information &amp; Ideas: 680–800</li>
+        <li>Advanced Math: 680–800</li>
+        <li>Problem-Solving &amp; Data Analysis: 680–800</li>
+      </ul><br>
+      Taken during a deliberate gap year to benchmark academic aptitude before university. Above the 90th percentile nationally among Grade 12 test takers.
+    </div>
+  </div>
+</div>
+
+<!-- RUNSA Project -->
+<div id="modal-runsa-proj" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="modal-header"><h3>RUNSA Legislative Summit 2026</h3><span class="tag" style="background:var(--red);">Featured</span></div>
+    <div class="mbt">
+      Built <strong>three independent production web applications</strong> as the sole developer in under 10 weeks:<br><br>
+      <ul>
+        <li><strong>Delegate Registration &amp; Admin Portal</strong> — Firestore backend, real-time dashboard, accreditation tools, CSV export. 611 delegates. Zero data loss.</li>
+        <li><strong>Live Order of Events</strong> — Firebase Realtime DB for cross-device session sync. Admin-authenticated mode. Vercel-deployed.</li>
+        <li><strong>Delegate Card Generator</strong> — Automated branded ID card generation and print layout for all institutions.</li>
+      </ul><br>
+      <div class="tp-row"><span class="tp">React.js</span><span class="tp">Firestore</span><span class="tp">Realtime DB</span><span class="tp">Vercel</span><span class="tp">JavaScript</span><span class="tp">CSS</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Wind Tunnel -->
+<div id="modal-wind" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="modal-header"><h3>Wind Tunnel Apparatus</h3><span class="tag">SWEP 2024</span></div>
+    <div class="modal-tabs">
+      <div class="media-view" onclick="openFullImage('images/wind-tunnel.jpg')">
+        <img src="images/wind-tunnel.jpg" alt="Wind Tunnel" onerror="this.src='https://placehold.co/600x300/1A2E4A/FFF?text=Wind+Tunnel'">
+        <div class="hint"><i class="fa-solid fa-expand"></i> View Photo</div>
+      </div>
+      <div class="tech-view">
+        <h4>Technical Specs</h4>
+        <ul>
+          <li><strong>Component:</strong> Contraction Cone &amp; Transparent Test Section</li>
+          <li><strong>Materials:</strong> Acrylic &amp; Mild Steel</li>
+          <li><strong>Physics:</strong> Bernoulli's Principle</li>
+          <li><strong>Method:</strong> Contraction ratio calculated analytically</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Maize Sheller -->
+<div id="modal-swep" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="modal-header"><h3>Maize Sheller Machine</h3><span class="tag">Fabrication · SWEP 2024</span></div>
+    <div class="modal-tabs">
+      <div class="media-view" onclick="openFullImage('images/swep.jpg')">
+        <img src="images/swep.jpg" alt="Maize Sheller" onerror="this.src='https://placehold.co/600x300/F97316/FFF?text=Maize+Sheller'">
+        <div class="hint"><i class="fa-solid fa-expand"></i> View Photo</div>
+      </div>
+      <div class="tech-view">
+        <h4>Fabrication Details</h4>
+        <ul>
+          <li><strong>Role:</strong> Lead Fabricator</li>
+          <li><strong>Chassis:</strong> Welded mild steel angle iron</li>
+          <li><strong>Power:</strong> 2HP Electric Motor</li>
+          <li><strong>Drive:</strong> Pulley &amp; Belt system</li>
+          <li><strong>Output:</strong> 50 kg/hr</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Beam Deflection -->
+<div id="modal-beam" class="modal-overlay">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="modal-header"><h3>Beam Deflection Automator</h3><span class="tag">Python</span></div>
+    <div class="code-block"><pre>import numpy as np
 
 def double_integration(load, length, E, I):
-    # Calculate Moment
-    M = (load * length) / 2
-    # Calculate Slope
+    M     = (load * length) / 2
     theta = M / (E * I)
-    return theta
-</pre>
-            </div>
-            <p>Automates calculation of slope and deflection for structural analysis reports.</p>
-        </div>
-    </div>
+    delta = (load * length**3) / (48 * E * I)
+    return {"slope": theta, "deflection": delta}</pre></div>
+    <div class="mbt">Automates the Double Integration Method for structural beam analysis. Reduces lab calculation time by <strong>90%+</strong> and eliminates propagation errors. Used by coursemates in Strength of Materials.</div>
+  </div>
+</div>
 
-    <div id="modal-skill-python" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <h3>Python for Engineering</h3>
-            <p>I use Python to solve mechanical problems, not just for software dev.</p>
-            <ul>
-                <li><strong>Libraries:</strong> NumPy, Pandas, Matplotlib.</li>
-                <li><strong>Use Case:</strong> Automating lab report calculations.</li>
-            </ul>
-        </div>
-    </div>
+<!-- Skill Modals -->
+<div id="modal-python" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Python for Engineering</h3><span class="tag">Intermediate</span></div>
+  <div class="mbt">I use Python to solve engineering problems, not just software tasks.<br><br><ul><li><strong>Libraries:</strong> NumPy, Pandas, Matplotlib</li><li><strong>Application:</strong> Structural analysis automation, lab report generation</li><li><strong>Project:</strong> Beam Deflection Automator (Double Integration Method)</li></ul></div>
+</div></div>
 
-    <div id="modal-skill-weld" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <h3>Arc Welding (SMAW)</h3>
-            <div class="media-view"><img src="images/swep.jpg" alt="Welding Context" onerror="this.src='https://placehold.co/600x300/eab308/FFF?text=Welding+Image'"></div>
-            <p>Hands-on experience with Shielded Metal Arc Welding for chassis construction.</p>
-        </div>
-    </div>
+<div id="modal-react" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>React &amp; Firebase</h3><span class="tag" style="background:#16A34A;">Production</span></div>
+  <div class="mbt">Applied in building the RUNSA Summit 2026 platform — three live apps deployed on Vercel.<br><br><ul><li><strong>React.js</strong> — component architecture, hooks, state management</li><li><strong>Firebase Firestore</strong> — delegate database, real-time admin reads</li><li><strong>Firebase RTDB</strong> — live session sync across devices</li><li><strong>Vercel</strong> — CI/CD deployment</li><li><strong>Git/GitHub</strong> — version control for all three repos</li></ul></div>
+</div></div>
 
-    <div id="modal-cowry" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Cowrywise Ambassador</h3><p>Led financial literacy campaigns. Increased sign-ups by 15%.</p></div></div>
-    <div id="modal-runsa" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>RUNSA Chief Whip</h3><p>Enforced parliamentary procedures and maintained legislative order.</p></div></div>
-    <div id="modal-spe" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>SPE Member</h3><p>Active participant in Society of Petroleum Engineers technical sessions.</p></div></div>
-    <div id="modal-sales" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Sales Representative</h3><p>Managed inventory and customer relations for family business.</p></div></div>
-    <div id="modal-school" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Redeemer's University</h3><p>B.Eng Mechanical Engineering. <br> CGPA: 4.6/5.0 (In View).</p></div></div>
-    <div id="modal-cert-coding" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Programming Hero</h3><p>Certified in Fundamentals of Programming (Data Structures & Algos).</p></div></div>
-    <div id="modal-skill-cad" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>AutoCAD</h3><p>Proficient in 2D Drafting and Orthographic projections.</p></div></div>
-    <div id="modal-skill-wood" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Woodwork</h3><p>Created precision Dovetail joints for structural integrity.</p></div></div>
-    <div id="modal-ethernet" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Networking</h3><p>Crimping and testing RJ45 Cat6 Ethernet cables.</p></div></div>
-    <div id="modal-lead" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button><h3>Leadership</h3><p>Proven track record in Student Government (RUNSA) and Team Projects (SWEP).</p></div></div>
+<div id="modal-cad" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>AutoCAD 2D/3D</h3><span class="tag">Engineering</span></div>
+  <div class="mbt">2D drafting and 3D modelling for engineering design. Used in coursework for orthographic projections, component drawings, and design visualisation.</div>
+</div></div>
 
-    <script src="script.js"></script>
+<div id="modal-weld" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>SMAW Welding</h3><span class="tag">Hands-on</span></div>
+  <div class="media-view" style="margin-bottom:12px;border-radius:9px;overflow:hidden;">
+    <img src="images/swep.jpg" alt="Welding" style="width:100%;height:160px;object-fit:cover;" onerror="this.src='https://placehold.co/600x250/F97316/FFF?text=SMAW+Welding'">
+  </div>
+  <div class="mbt">Shielded Metal Arc Welding (SMAW) on mild steel during SWEP. Applied in Maize Sheller chassis fabrication — joint preparation, electrode selection, post-weld cleanup.</div>
+</div></div>
+
+<div id="modal-machine" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Lathe &amp; Milling</h3><span class="tag">SWEP Trained</span></div>
+  <div class="mbt"><ul><li><strong>Lathe:</strong> Turning, facing, threading on mild steel</li><li><strong>Milling:</strong> Surface finishing and shoulder milling</li><li><strong>Drilling:</strong> Precision drilling and reaming</li><li><strong>Angle Grinding:</strong> Deburring and surface preparation</li></ul></div>
+</div></div>
+
+<div id="modal-wood" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Precision Woodwork</h3><span class="tag">Workshop</span></div>
+  <div class="mbt">Created precision dovetail joints during workshop training — requires exact measurement and hand-tool control. Demonstrates attention to dimensional tolerance and fit.</div>
+</div></div>
+
+<div id="modal-ethernet" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Ethernet Cabling</h3><span class="tag">Networking</span></div>
+  <div class="mbt">Crimping and testing RJ45 Cat6 cables for straight-through and crossover configurations. Includes cable testing with network verifiers.</div>
+</div></div>
+
+<div id="modal-lead" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Leadership</h3><span class="tag">Proven</span></div>
+  <div class="mbt"><ul><li><strong>RUNSA Chief Whip</strong> — parliamentary order; supervises all In-House Committees</li><li><strong>RUNSA Summit 2026</strong> — sole developer of full event digital infrastructure</li><li><strong>SWEP Fabrication Lead</strong> — led Maize Sheller chassis team</li><li><strong>Cowrywise Ambassador</strong> — grew campus registrations 15%</li></ul></div>
+</div></div>
+
+<!-- Experience Modals -->
+<div id="modal-cowry" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Cowrywise Campus Ambassador</h3><span class="tag">Fintech</span></div>
+  <div class="mbt">Dec 2024 – Present · Redeemer's University<br><br><ul><li>Lead financial literacy campaigns on personal finance and investment fundamentals</li><li>Organised "Club60" masterclasses on savings, budgeting, and investing</li><li><strong>Grew student platform registrations by 15%</strong> within the first semester</li></ul></div>
+</div></div>
+
+<div id="modal-runsa-exp" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>RUNSA Legislative Council</h3><span class="tag" style="background:#1A2E4A;">Student Govt</span></div>
+  <div class="mbt">
+    Oct 2024 – Present · Redeemer's University National Students' Association<br><br>
+    <strong>Chief Whip</strong>
+    <ul><li>Enforce parliamentary procedures and maintain legislative order</li><li>Coordinate member attendance and quorum compliance during Council sessions</li></ul><br>
+    <strong>Supervisor — All In-House Committees</strong>
+    <ul><li>Oversee operations of all In-House Committees within the RUNSA Legislative Council</li><li>Ensure committees meet procedural standards and report effectively to the full Council</li></ul><br>
+    Additionally served as <strong>sole developer</strong> for the RUNSA Legislative Summit 2026 platform (611 delegates, 3 live production apps).
+  </div>
+</div></div>
+
+<div id="modal-fossil" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Energy &amp; Fossil Fuel Committee</h3><span class="tag" style="background:#F97316;">SPE</span></div>
+  <div class="mbt">
+    2024 – Present · Society of Petroleum Engineers — Redeemer's University Chapter<br><br>
+    The Energy &amp; Fossil Fuel Committee covers the technical and economic dimensions of conventional energy — upstream/downstream petroleum operations, refining, and hydrocarbon resource management.<br><br>
+    <ul>
+      <li>Participate in sessions on drilling engineering, reservoir analysis, and energy economics</li>
+      <li>Engage with literature on hydrocarbon extraction and processing</li>
+      <li>Contribute to discussions on Nigeria's energy sector challenges and opportunities</li>
+    </ul>
+  </div>
+</div></div>
+
+<div id="modal-climate" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Environmental &amp; Climate Impact Committee</h3><span class="tag" style="background:#0D9488;">SPE</span></div>
+  <div class="mbt">
+    2024 – Present · Society of Petroleum Engineers — Redeemer's University Chapter<br><br>
+    This committee addresses the intersection of petroleum engineering and environmental stewardship — emissions, environmental impact assessment, regulatory frameworks, and the energy transition.<br><br>
+    <ul>
+      <li>Study environmental impact assessment for oil &amp; gas operations</li>
+      <li>Engage with climate policy, carbon capture concepts, and ESG frameworks</li>
+      <li>Participate in discussions on Nigeria's environmental regulation and the just energy transition</li>
+    </ul>
+  </div>
+</div></div>
+
+<div id="modal-sales" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Sales Representative</h3><span class="tag" style="background:#22C55E;">Family Business</span></div>
+  <div class="mbt">2022 – 2024 · Lagos, Nigeria<br><br><ul><li>Managed customer relations in a fast-paced retail environment</li><li>Handled stock reconciliation, inventory tracking, and daily sales logging</li><li>Developed practical negotiation and communication skills</li></ul></div>
+</div></div>
+
+<!-- Education Modals -->
+<div id="modal-school" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Redeemer's University, Ede</h3><span class="tag" style="background:#1A2E4A;">2023 – Present</span></div>
+  <div class="mbt"><strong>B.Eng. Mechanical Engineering</strong> · Osun State, Nigeria<br><br><ul><li><strong>CGPA:</strong> 4.37 / 5.00</li><li><strong>Coursework:</strong> Engineering Thermodynamics, Strength of Materials, Engineering Materials, Workshop Practice, Fluid Mechanics, Engineering Mathematics, Python Programming</li><li><strong>Activities:</strong> RUNSA Chief Whip &amp; In-House Supervisor, SPE (2 Committees), Cowrywise Ambassador</li></ul></div>
+</div></div>
+
+<div id="modal-cert" class="modal-overlay"><div class="modal-box"><button class="close-modal" onclick="closeModal()">&times;</button>
+  <div class="modal-header"><h3>Programming Hero</h3><span class="tag">Certified 2020</span></div>
+  <div class="mbt">Fundamentals of Programming — Data Structures (Lists, Arrays, Dictionaries), Control Flow (Loops, Conditionals), Functions, and introductory Algorithm design.</div>
+</div></div>
+
+<!-- ─── SCRIPT ─── -->
+<script>
+// Theme
+const icon=document.getElementById('theme-icon');
+let dark=false;
+function toggleTheme(){
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'');
+  icon.className=dark?'fa-solid fa-sun':'fa-solid fa-moon';
+}
+if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches) toggleTheme();
+
+// Modals
+let active=null;
+function openModal(id){
+  if(active) closeModal();
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.classList.add('active');
+  document.body.style.overflow='hidden';
+  active=el;
+}
+function closeModal(){
+  if(!active)return;
+  active.classList.remove('active');
+  document.body.style.overflow='';
+  active=null;
+}
+function openFullImage(src){
+  document.getElementById('full-img').src=src;
+  openModal('modal-fullscreen');
+}
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)closeModal();});
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// Scroll reveal with stagger
+const els=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('active'),40);});
+},{threshold:0.07});
+[...document.querySelectorAll('.bento-grid .reveal')].forEach((c,i)=>{
+  c.style.transitionDelay=Math.min(i*55,280)+'ms';
+});
+els.forEach(e=>io.observe(e));
+</script>
 </body>
 </html>
